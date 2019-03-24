@@ -5,6 +5,11 @@
 A circular progress view
 
 
+<img src="https://raw.githubusercontent.com/seanghay/thash/master/art/thash-01.png" width="600" />
+
+
+--------
+
 ## Installation
 
 via Gradle
@@ -14,10 +19,11 @@ dependencies {
     implementation 'com.seanghay:thash:0.0.1'
 }
 
+------------------------
 ```
 ## How to Use
 
-###1. Inflate view
+### 1. Inflate view
 
 ```xml
 <com.seanghay.library.ThashView
