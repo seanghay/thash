@@ -18,9 +18,9 @@ via Gradle
 dependencies {
     implementation 'com.seanghay:thash:0.0.1'
 }
-
-------------------------
 ```
+
+---------
 ## How to Use
 
 ### 1. Inflate view
