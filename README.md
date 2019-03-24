@@ -5,7 +5,7 @@
 A circular progress view
 
 
-<img src="https://raw.githubusercontent.com/seanghay/thash/master/art/thash-01.png" width="600" />
+<img src="https://raw.githubusercontent.com/seanghay/thash/master/art/thash-01.png" width="400" />
 
 
 --------
