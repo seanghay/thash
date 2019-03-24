@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="ThashView">
+
+        <attr name="startAngle" format="float"/>
+        <attr name="progress" format="float"/>
+        <attr name="maxProgress" format="float"/>
+
+        <attr name="indicatorFraction" format="float" />
+        <attr name="indicatorColor" format="color"/>
+        <attr name="hideIndicator" format="boolean" />
+        <attr name="indicatorAngleOffset" format="float"/>
+        <attr name="indicatorGravity" format="enum">
+            <enum name="start" value="0"/>
+            <enum name="end" value="1"/>
+        </attr>
+
+        <attr name="progressWidth" format="dimension"/>
+        <attr name="progressColor" format="color"/>
+        <attr name="progressRoundedCap" format="boolean"/>
+
+        <attr name="progressBackgroundWidth" format="dimension" />
+        <attr name="progressBackgroundColor" format="color"/>
+
+    </declare-styleable>
+
+</resources>
