@@ -17,7 +17,7 @@ dependencies {
 ```
 ## How to Use
 
-####1. Inflate view
+###1. Inflate view
 
 ```xml
 <com.seanghay.library.ThashView
