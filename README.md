@@ -28,8 +28,8 @@ dependencies {
 ```xml
 <com.seanghay.library.ThashView
     android:id="@+id/thashView"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     app:progress="60"
     app:maxProgress="100"
     app:progressRoundedCap="true"
