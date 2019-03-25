@@ -16,7 +16,7 @@ via Gradle
 
 ```gradle
 dependencies {
-    implementation 'com.seanghay:thash:0.0.1'
+    implementation 'com.seanghay:thash:0.1.0'
 }
 ```
 
