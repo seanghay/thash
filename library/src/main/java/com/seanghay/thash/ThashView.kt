@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.seanghay.library
+package com.seanghay.thash
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -29,6 +29,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
+import androidx.annotation.Keep
 import androidx.lifecycle.LifecycleObserver
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -36,17 +37,16 @@ import kotlin.reflect.KProperty
 /**
 * ThashView is a minimal progress view for Android.
 */
+@Keep
 class ThashView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0
 ) : View(context, attributeSet, defStyle), LifecycleObserver {
-
     
     /**
      * Listeners
      */
-
     private var progressListener: ((Float, Float) -> Unit)? = null
 
     /**
@@ -55,12 +55,23 @@ class ThashView @JvmOverloads constructor(
 
     var startAngle by prop(DEFAULT_START_ANGLE)
     var maxProgress by prop(DEFAULT_MAX_PROGRESS)
-    var progress by prop(DEFAULT_PROGRESS) { progressListener?.invoke(it, it / maxProgress) }
+
+    private var _progress: Float = 0f
+
+    var progress: Float
+        set(value) {
+            setProgress(progress, true)
+            _progress = value
+        }
+        get() {
+            return _progress
+        }
 
     var indicatorColor by prop(DEFAULT_INDICATOR_COLOR)
     var indicatorFraction by prop(DEFAULT_INDICATOR_FRACTION)
 
     var progressColor: Int by prop(context.accentColor())
+
     var backgroundProgressColor by prop(DEFAULT_BACKGROUND_PROGRESS_COLOR)
     var progressWidth by prop(DEFAULT_PROGRESS_WIDTH_DIP.dip())
     var progressBackgroundWidth by prop(DEFAULT_BACKGROUND_PROGRESS_WIDTH_DIP.dip())
@@ -141,7 +152,6 @@ class ThashView @JvmOverloads constructor(
         })
 
         // Draw indicator
-
         if (hideIndicator || progress == 0f) return
 
         val angleOffset = Math.abs(indicatorAngleOffset) onlyInBetween (0f to progressAngle)
@@ -162,8 +172,8 @@ class ThashView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Square View
         val desiredWidth = suggestedMinimumWidth + paddingLeft + paddingRight
-        val desiredHeight = suggestedMinimumWidth + paddingTop + paddingBottom
-        setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec), measureDimension(desiredWidth, widthMeasureSpec))
+        setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
+            measureDimension(desiredWidth, widthMeasureSpec))
     }
 
 
@@ -206,6 +216,7 @@ class ThashView @JvmOverloads constructor(
 
     fun progressChanged(progressListener: ((progress: Float, fraction: Float) -> Unit)) {
         this.progressListener = progressListener
+        progressListener.invoke(progress, progress / maxProgress)
     }
 
 
@@ -226,7 +237,6 @@ class ThashView @JvmOverloads constructor(
      * Measure the size of the view
      */
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
-
         val mode = MeasureSpec.getMode(measureSpec)
         val size = MeasureSpec.getSize(desiredSize)
 
@@ -272,7 +282,6 @@ class ThashView @JvmOverloads constructor(
 
     // Utility functions for converting dimension
     private fun Float.dip() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
-
     private fun Float.dipInt() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics).toInt()
     private fun Double.dip() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, toFloat(), resources.displayMetrics)
     private fun Double.dipInt() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, toFloat(), resources.displayMetrics).toInt()
@@ -284,6 +293,14 @@ class ThashView @JvmOverloads constructor(
      * An alias of CircularProperty
      */
     private fun <T> prop(value: T, observer: ((T) -> Unit)? = null) = CircularProperty(value, observer)
+
+    fun setProgress(progress: Float, notify: Boolean) {
+        _progress = progress
+        if (notify) {
+            progressListener?.invoke(_progress, _progress / maxProgress)
+        }
+    }
+
     /**
      * Property delegate class
      * @param value value pass in to
@@ -328,10 +345,10 @@ class ThashView @JvmOverloads constructor(
     internal class SavedState : BaseSavedState {
         
         var progress = 0f
-        var startAngle = 270f
-        var maxProgress = 100f
-        var progressThickness = 60f
-        var progressBackgroundThickness = 10f
+        private var startAngle = 270f
+        private var maxProgress = 100f
+        private var progressThickness = 60f
+        private var progressBackgroundThickness = 10f
 
         constructor(superState: Parcelable?) : super(superState)
 
@@ -359,8 +376,8 @@ class ThashView @JvmOverloads constructor(
             out?.writeBundle(params)
         }
         
-        companion object {
-            
+        private companion object {
+
             private const val PARAMS_PROGRESS = "progress"
             private const val PARAMS_START_ANGLE = "start-angle"
             private const val PARAMS_MAX_PROGRESS = "max-progress"
