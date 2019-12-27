@@ -1,3 +1,17 @@
+// Copyright 2019 Seanghay Yath
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.seanghay.library
 
 import android.animation.ValueAnimator
@@ -19,35 +33,16 @@ import androidx.lifecycle.LifecycleObserver
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
+/**
+* ThashView is a minimal progress view for Android.
+*/
 class ThashView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0
 ) : View(context, attributeSet, defStyle), LifecycleObserver {
 
-    companion object {
-
-        const val DEFAULT_START_ANGLE = 270f
-        const val DEFAULT_PROGRESS = 0f
-        const val DEFAULT_MAX_PROGRESS = 100f
-
-        const val DEFAULT_PROGRESS_ROUNDED_CAP = true
-        const val DEFAULT_PROGRESS_WIDTH_DIP = 20f
-        const val DEFAULT_BACKGROUND_PROGRESS_WIDTH_DIP = 2f
-        const val DEFAULT_BACKGROUND_PROGRESS_COLOR = Color.LTGRAY
-
-        const val DEFAULT_INDICATOR_FRACTION = .5f
-        const val DEFAULT_INDICATOR_COLOR = Color.WHITE
-        const val DEFAULT_HIDE_INDICATOR = false
-        const val DEFAULT_INDICATOR_ANGLE_OFFSET = 0f
-
-        // INDICATOR_GRAVITY
-        const val INDICATOR_START = 0
-        const val INDICATOR_END = 1
-    }
-
-
+    
     /**
      * Listeners
      */
@@ -306,27 +301,32 @@ class ThashView @JvmOverloads constructor(
         }
     }
 
+    
+    companion object {
+        const val DEFAULT_START_ANGLE = 270f
+        const val DEFAULT_PROGRESS = 0f
+        const val DEFAULT_MAX_PROGRESS = 100f
 
+        const val DEFAULT_PROGRESS_ROUNDED_CAP = true
+        const val DEFAULT_PROGRESS_WIDTH_DIP = 20f
+        const val DEFAULT_BACKGROUND_PROGRESS_WIDTH_DIP = 2f
+        const val DEFAULT_BACKGROUND_PROGRESS_COLOR = Color.LTGRAY
+
+        const val DEFAULT_INDICATOR_FRACTION = .5f
+        const val DEFAULT_INDICATOR_COLOR = Color.WHITE
+        const val DEFAULT_HIDE_INDICATOR = false
+        const val DEFAULT_INDICATOR_ANGLE_OFFSET = 0f
+
+        // INDICATOR_GRAVITY
+        const val INDICATOR_START = 0
+        const val INDICATOR_END = 1
+    }
+    
     /**
      * Save view states
      */
     internal class SavedState : BaseSavedState {
-
-        companion object {
-
-            const val PARAMS_PROGRESS = "progress"
-            const val PARAMS_START_ANGLE = "start-angle"
-            const val PARAMS_MAX_PROGRESS = "max-progress"
-            const val PARAMS_PROGRESS_THICKNESS = "progress-thickness"
-            const val PARAMS_PROGRESS_BACKGROUND_THICKNESS = "progress-background-thickness"
-
-            @JvmField
-            val CREATOR = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(parcel: Parcel?) = SavedState(parcel)
-                override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
-            }
-        }
-
+        
         var progress = 0f
         var startAngle = 270f
         var maxProgress = 100f
@@ -357,6 +357,21 @@ class ThashView @JvmOverloads constructor(
             }
 
             out?.writeBundle(params)
+        }
+        
+        companion object {
+            
+            private const val PARAMS_PROGRESS = "progress"
+            private const val PARAMS_START_ANGLE = "start-angle"
+            private const val PARAMS_MAX_PROGRESS = "max-progress"
+            private const val PARAMS_PROGRESS_THICKNESS = "progress-thickness"
+            private const val PARAMS_PROGRESS_BACKGROUND_THICKNESS = "progress-background-thickness"
+
+            @JvmField
+            val CREATOR = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(parcel: Parcel?) = SavedState(parcel)
+                override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
+            }
         }
     }
 
